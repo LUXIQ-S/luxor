@@ -741,8 +741,13 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 1rem)}
   <div class="modal-player" id="modalPlayer"></div>
 </div>
 
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
 <!-- ═══════════════════════════════ JAVASCRIPT ═══════════════════════════════ -->
 <script>
+// Initializare EmailJS
+emailjs.init('pcZFguCZvYPOE1tfQ');
 /* ── 1. LOADER ── */
 (function(){
   var loader = document.getElementById('loader');
@@ -1009,32 +1014,13 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a){
       return;
     }
     btn.classList.add('loading');
-
-    /* ════════════════════════════════════════════════
-       🚀 REPLACE THIS BLOCK with your real API call:
-
-       fetch('https://formspree.io/f/YOUR_ID', {
-         method:'POST', body:new FormData(form),
-         headers:{'Accept':'application/json'}
-       }).then(function(r){
-         if(!r.ok) throw new Error();
-         showSuccess();
-       }).catch(function(){
-         btn.classList.remove('loading');
-         alert('Something went wrong, please try again.');
-       });
-
-       return; // don't run the simulation below
-    ════════════════════════════════════════════════ */
-
-    // SIMULATION — remove in production
-    setTimeout(function(){
-      btn.classList.remove('loading');
-      form.style.display='none';
-      success.hidden=false;
-    }, 1800);
   });
+
 })();
+
 </script>
+
+<script src="main.js"></script>
+
 </body>
 </html>
