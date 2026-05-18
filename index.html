@@ -1013,73 +1013,63 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a){
     // ── Backend server integration ──
     var BACKEND = 'https://malformed-snack-parking.ngrok-free.dev';
 
-    var photoInput = document.getElementById('photoUpload');
-    var hasPhoto   = photoInput && photoInput.files && photoInput.files[0];
+// Salvam fisierul INAINTE de orice procesare
+var photoFile = photoInput && photoInput.files && photoInput.files[0] ? photoInput.files[0] : null;
 
-    function sendToServer(base64Photo) {
-      fetch(BACKEND + '/order', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'ngrok-skip-browser-warning': 'true'
-        },
-        body: JSON.stringify({
-          from_name:      document.getElementById('yourName').value,
-          from_email:     document.getElementById('email').value,
-          recipient_name: document.getElementById('recipientName').value,
-          occasion:       document.getElementById('occasion').value,
-          message:        document.getElementById('message').value,
-          photo:          base64Photo || null
-        })
-      })
-      .then(function(r){ return r.json(); })
-      .then(function(data){
-        if(data.success){
-          btn.classList.remove('loading');
-          form.style.display = 'none';
-          success.hidden = false;
-        } else {
-          throw new Error(data.error || 'Eroare server');
-        }
-      })
-      .catch(function(err){
-        btn.classList.remove('loading');
-        console.error('Backend error:', err);
-        alert('Ceva nu a mers. Te rugăm încearcă din nou.');
-      });
+function sendToServer(base64Photo) {
+  fetch(BACKEND + '/order', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'ngrok-skip-browser-warning': 'true'
+    },
+    body: JSON.stringify({
+      from_name:      document.getElementById('yourName').value,
+      from_email:     document.getElementById('email').value,
+      recipient_name: document.getElementById('recipientName').value,
+      occasion:       document.getElementById('occasion').value,
+      message:        document.getElementById('message').value,
+      photo:          base64Photo || null
+    })
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data){
+    if(data.success){
+      btn.classList.remove('loading');
+      form.style.display = 'none';
+      success.hidden = false;
+    } else {
+      throw new Error(data.error || 'Eroare server');
     }
+  })
+  .catch(function(err){
+    btn.classList.remove('loading');
+    console.error('Backend error:', err);
+    alert('Ceva nu a mers. Te rugăm încearcă din nou.');
+  });
+}
 
-    // Dacă există poză o convertim în base64
-    if(hasPhoto) {
+if(photoFile) {
   var reader = new FileReader();
   reader.onload = function(e) {
-    // Comprimam poza inainte sa o trimitem
     var img = new Image();
     img.onload = function() {
       var canvas = document.createElement('canvas');
-      var maxW = 1200;
-      var maxH = 1200;
-      var w = img.width;
-      var h = img.height;
-
-      // Redimensionam daca e prea mare
+      var maxW = 1200, maxH = 1200;
+      var w = img.width, h = img.height;
       if(w > maxW || h > maxH) {
         if(w > h) { h = Math.round(h * maxW / w); w = maxW; }
-        else       { w = Math.round(w * maxH / h); h = maxH; }
+        else      { w = Math.round(w * maxH / h); h = maxH; }
       }
-
-      canvas.width  = w;
-      canvas.height = h;
+      canvas.width = w; canvas.height = h;
       canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-
-      // Comprimam la 80% calitate JPEG
-      var compressed = canvas.toDataURL('image/jpeg', 0.8);
-      sendToServer(compressed);
+      sendToServer(canvas.toDataURL('image/jpeg', 0.8));
     };
+    img.onerror = function() { sendToServer(null); };
     img.src = e.target.result;
   };
   reader.onerror = function() { sendToServer(null); };
-  reader.readAsDataURL(photoInput.files[0]);
+  reader.readAsDataURL(photoFile);
 } else {
   sendToServer(null);
 }
