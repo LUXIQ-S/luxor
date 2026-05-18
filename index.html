@@ -1051,13 +1051,38 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a){
 
     // Dacă există poză o convertim în base64
     if(hasPhoto) {
-      var reader = new FileReader();
-      reader.onload  = function(e) { sendToServer(e.target.result); };
-      reader.onerror = function()  { sendToServer(null); };
-      reader.readAsDataURL(photoInput.files[0]);
-    } else {
-      sendToServer(null);
-    }
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    // Comprimam poza inainte sa o trimitem
+    var img = new Image();
+    img.onload = function() {
+      var canvas = document.createElement('canvas');
+      var maxW = 1200;
+      var maxH = 1200;
+      var w = img.width;
+      var h = img.height;
+
+      // Redimensionam daca e prea mare
+      if(w > maxW || h > maxH) {
+        if(w > h) { h = Math.round(h * maxW / w); w = maxW; }
+        else       { w = Math.round(w * maxH / h); h = maxH; }
+      }
+
+      canvas.width  = w;
+      canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+
+      // Comprimam la 80% calitate JPEG
+      var compressed = canvas.toDataURL('image/jpeg', 0.8);
+      sendToServer(compressed);
+    };
+    img.src = e.target.result;
+  };
+  reader.onerror = function() { sendToServer(null); };
+  reader.readAsDataURL(photoInput.files[0]);
+} else {
+  sendToServer(null);
+}
     return;
   });
 })();
