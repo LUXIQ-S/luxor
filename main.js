@@ -227,24 +227,60 @@ document.querySelectorAll('a[href^="#"]').forEach(function (a) {
   if (!form) return;
 
   // ✏️ Schimba URL-ul daca se schimba ngrok
-  var BACKEND = 'https://malformed-snack-parking.ngrok-free.dev';
+  function sendToServer() {
+    var formData = new FormData();
+    formData.append('yourName',      document.getElementById('yourName').value);
+    formData.append('email',         document.getElementById('email').value);
+    formData.append('recipientName', document.getElementById('recipientName').value);
+    formData.append('occasion',      document.getElementById('occasion').value);
+    formData.append('message',       document.getElementById('message').value);
 
-  var fields = [
-    { id: 'yourName',       ok: function (v) { return v.trim().length >= 2; } },
-    { id: 'recipientName',  ok: function (v) { return v.trim().length >= 1; } },
-    { id: 'email',          ok: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); } },
-    { id: 'occasion',       ok: function (v) { return v !== ''; } },
-    { id: 'message',        ok: function (v) { return v.trim().length >= 10; } },
-  ];
-
-  function validate(fc) {
-    var el  = document.getElementById(fc.id);
-    var err = el && el.parentElement.querySelector('.form-error');
-    var valid = fc.ok(el ? el.value : '');
-    if (el)  el.classList.toggle('error', !valid);
-    if (err) err.classList.toggle('visible', !valid);
-    return valid;
+    fetch('https://formspree.io/f/xkoykkan', {
+      method: 'POST',
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if(data.ok) {
+        btn.classList.remove('loading');
+        form.style.display = 'none';
+        successEl.hidden = false;
+      } else {
+        throw new Error('Eroare');
+      }
+    })
+    .catch(function(err) {
+      btn.classList.remove('loading');
+      alert('Ceva nu a mers. Încearcă din nou.');
+    });
   }
+
+  fields.forEach(function (fc) {
+    var el = document.getElementById(fc.id);
+    if (!el) return;
+    el.addEventListener('blur',  function () { validate(fc); });
+    el.addEventListener('input', function () {
+      if (fc.ok(el.value)) {
+        el.classList.remove('error');
+        var err = el.parentElement.querySelector('.form-error');
+        if (err) err.classList.remove('visible');
+      }
+    });
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var allOk = fields.map(validate).every(Boolean);
+    if (!allOk) {
+      var first = form.querySelector('.error');
+      if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    btn.classList.add('loading');
+    sendToServer();
+  });
+})();
 
   fields.forEach(function (fc) {
     var el = document.getElementById(fc.id);
