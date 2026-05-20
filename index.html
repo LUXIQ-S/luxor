@@ -1010,54 +1010,34 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a){
     }
     btn.classList.add('loading');
 
-    // ── Backend server integration ──
-    var BACKEND = 'https://malformed-snack-parking.ngrok-free.dev';
+    // ── Formspree integration ──
+    var formData = new FormData();
+    formData.append('yourName',      document.getElementById('yourName').value);
+    formData.append('email',         document.getElementById('email').value);
+    formData.append('recipientName', document.getElementById('recipientName').value);
+    formData.append('occasion',      document.getElementById('occasion').value);
+    formData.append('message',       document.getElementById('message').value);
 
-    var photoInput = document.getElementById('photoUpload');
-    var hasPhoto   = photoInput && photoInput.files && photoInput.files[0];
-
-    function sendToServer(base64Photo) {
-      fetch(BACKEND + '/order', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'ngrok-skip-browser-warning': 'true'
-        },
-        body: JSON.stringify({
-          from_name:      document.getElementById('yourName').value,
-          from_email:     document.getElementById('email').value,
-          recipient_name: document.getElementById('recipientName').value,
-          occasion:       document.getElementById('occasion').value,
-          message:        document.getElementById('message').value,
-          photo:          base64Photo || null
-        })
-      })
-      .then(function(r){ return r.json(); })
-      .then(function(data){
-        if(data.success){
-          btn.classList.remove('loading');
-          form.style.display = 'none';
-          success.hidden = false;
-        } else {
-          throw new Error(data.error || 'Eroare server');
-        }
-      })
-      .catch(function(err){
+    fetch('https://formspree.io/f/xkoykkan', {
+      method: 'POST',
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      if(data.ok){
         btn.classList.remove('loading');
-        console.error('Backend error:', err);
-        alert('Ceva nu a mers. Te rugăm încearcă din nou.');
-      });
-    }
-
-    // Dacă există poză o convertim în base64
-    if(hasPhoto) {
-      var reader = new FileReader();
-      reader.onload  = function(e) { sendToServer(e.target.result); };
-      reader.onerror = function()  { sendToServer(null); };
-      reader.readAsDataURL(photoInput.files[0]);
-    } else {
-      sendToServer(null);
-    }
+        form.style.display = 'none';
+        success.hidden = false;
+      } else {
+        throw new Error('Eroare formspree');
+      }
+    })
+    .catch(function(err){
+      btn.classList.remove('loading');
+      console.error('Eroare:', err);
+      alert('Ceva nu a mers. Te rugăm încearcă din nou.');
+    });
     return;
   });
 })();
