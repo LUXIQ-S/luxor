@@ -1010,13 +1010,36 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a){
     }
     btn.classList.add('loading');
 
-    // ── Formspree integration ──
+    // ── Trimite la server (Telegram) + Formspree (email) ──
+    var yourName      = document.getElementById('yourName').value;
+    var email         = document.getElementById('email').value;
+    var recipientName = document.getElementById('recipientName').value;
+    var occasion      = document.getElementById('occasion').value;
+    var message       = document.getElementById('message').value;
+
+    // 1. Trimite la serverul tau — Telegram
+    fetch('https://malformed-snack-parking.ngrok-free.dev/order', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'ngrok-skip-browser-warning': 'true'
+      },
+      body: JSON.stringify({
+        from_name:      yourName,
+        from_email:     email,
+        recipient_name: recipientName,
+        occasion:       occasion,
+        message:        message
+      })
+    }).catch(function(){ /* daca serverul e oprit, ignoram */ });
+
+    // 2. Trimite la Formspree — email backup
     var formData = new FormData();
-    formData.append('yourName',      document.getElementById('yourName').value);
-    formData.append('email',         document.getElementById('email').value);
-    formData.append('recipientName', document.getElementById('recipientName').value);
-    formData.append('occasion',      document.getElementById('occasion').value);
-    formData.append('message',       document.getElementById('message').value);
+    formData.append('yourName',      yourName);
+    formData.append('email',         email);
+    formData.append('recipientName', recipientName);
+    formData.append('occasion',      occasion);
+    formData.append('message',       message);
 
     fetch('https://formspree.io/f/xkoykkan', {
       method: 'POST',
