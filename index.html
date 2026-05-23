@@ -7,11 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
-
 <style>
-/* ══════════════════════════════════════════
-   🎨 CONTROL PANEL — edit these to restyle
-══════════════════════════════════════════ */
 :root {
   --bg:           #ffffff;
   --bg-alt:       #f8f7f5;
@@ -20,6 +16,8 @@
   --ink-light:    #999999;
   --border:       rgba(0,0,0,.09);
   --shadow:       rgba(0,0,0,.07);
+  --gold:         #c9a84c;
+  --gold-light:   #f5e9c8;
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-body:    'DM Sans', system-ui, sans-serif;
   --r-sm:  10px;
@@ -29,8 +27,6 @@
   --ease:  cubic-bezier(0.22,1,0.36,1);
   --nav-h: 68px;
 }
-
-/* ── Reset ── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;font-size:16px}
 body{font-family:var(--font-body);background:var(--bg);color:var(--ink);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
@@ -41,7 +37,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 input,textarea,select{font-family:inherit;font-size:1rem}
 section[id]{scroll-margin-top:calc(var(--nav-h) + 1rem)}
 
-/* ── Layout ── */
 .container{width:100%;max-width:1180px;margin:0 auto;padding:0 2rem}
 .container-narrow{max-width:760px}
 .section{padding:7rem 0}
@@ -52,43 +47,25 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 1rem)}
 .section-title em{font-style:italic}
 .section-sub{margin-top:1.2rem;font-size:1.05rem;color:var(--ink-mid);max-width:520px;margin-left:auto;margin-right:auto;line-height:1.7}
 
-/* ══════════════════════════════════════════
-   BUTTONS — all hover & active states here
-══════════════════════════════════════════ */
-.btn{
-  display:inline-flex;align-items:center;gap:.4rem;
-  padding:.85rem 2rem;border-radius:var(--r-full);
-  font-size:.9rem;font-weight:500;letter-spacing:.01em;
-  white-space:nowrap;cursor:pointer;
-  transition:transform .25s var(--ease),box-shadow .25s var(--ease),background .2s,color .2s,border-color .2s;
-}
-/* black filled */
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.85rem 2rem;border-radius:var(--r-full);font-size:.9rem;font-weight:500;letter-spacing:.01em;white-space:nowrap;cursor:pointer;transition:transform .25s var(--ease),box-shadow .25s var(--ease),background .2s,color .2s,border-color .2s}
 .btn-primary{background:var(--ink);color:#fff;box-shadow:0 2px 20px rgba(0,0,0,.15)}
 .btn-primary:hover{transform:translateY(-3px);box-shadow:0 10px 32px rgba(0,0,0,.25)}
-.btn-primary:active{transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,0,0,.18)}
-/* outlined */
+.btn-primary:active{transform:translateY(-1px)}
 .btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--border)}
 .btn-ghost:hover{border-color:var(--ink);background:rgba(0,0,0,.04);transform:translateY(-2px)}
-.btn-ghost:active{transform:translateY(0)}
-/* nav compact */
+.btn-gold{background:var(--gold);color:#fff;box-shadow:0 2px 20px rgba(201,168,76,.3)}
+.btn-gold:hover{transform:translateY(-3px);box-shadow:0 10px 32px rgba(201,168,76,.4)}
 .btn-nav{background:var(--ink);color:#fff;padding:.6rem 1.4rem;font-size:.82rem}
 .btn-nav:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.2)}
-/* submit full-width */
 .btn-submit{width:100%;justify-content:center;padding:1.1rem 2rem;font-size:1rem;border-radius:var(--r-md)}
-/* loading state */
 .btn-loading{display:none}
 .btn-submit.loading .btn-text{display:none}
 .btn-submit.loading .btn-loading{display:inline}
 .btn-submit.loading{opacity:.65;pointer-events:none}
 
-/* ══════════════════════════════════════════
-   LOADER
-══════════════════════════════════════════ */
-#loader{
-  position:fixed;inset:0;z-index:9999;background:var(--bg);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;
-  transition:opacity .6s var(--ease),visibility .6s;
-}
+/* LOADER */
+#loader{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;transition:opacity .6s var(--ease),visibility .6s}
 #loader.hidden{opacity:0;visibility:hidden;pointer-events:none}
 .loader-logo{font-family:var(--font-display);font-size:1.8rem;font-weight:300;letter-spacing:.08em;animation:pulse 1.4s ease-in-out infinite alternate}
 @keyframes pulse{from{opacity:.3}to{opacity:1}}
@@ -96,16 +73,8 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 1rem)}
 .loader-bar span{display:block;height:100%;background:var(--ink);border-radius:var(--r-full);animation:barFill 1.2s ease-in-out forwards}
 @keyframes barFill{from{width:0}to{width:100%}}
 
-/* ══════════════════════════════════════════
-   NAVIGATION
-══════════════════════════════════════════ */
-#nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav-h);
-  background:rgba(255,255,255,.85);
-  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border-bottom:1px solid transparent;
-  transition:border-color .3s,box-shadow .3s;
-}
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav-h);background:rgba(255,255,255,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
 #nav.scrolled{border-color:var(--border);box-shadow:0 2px 24px var(--shadow)}
 .nav-inner{max-width:1180px;margin:0 auto;padding:0 2rem;height:100%;display:flex;align-items:center;gap:2rem}
 .nav-logo{font-family:var(--font-display);font-size:1.35rem;font-weight:400;letter-spacing:.04em;flex-shrink:0;transition:opacity .2s}
@@ -115,45 +84,20 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 1rem)}
 .nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--ink);transition:width .3s var(--ease)}
 .nav-links a:hover{color:var(--ink)}
 .nav-links a:hover::after{width:100%}
-/* hamburger */
 .nav-hamburger{display:none;flex-direction:column;gap:5px;padding:8px;margin-left:auto;cursor:pointer}
 .nav-hamburger span{display:block;width:22px;height:1.5px;background:var(--ink);border-radius:var(--r-full);transition:transform .3s var(--ease),opacity .3s}
 .nav-hamburger.open span:first-child{transform:translateY(6.5px) rotate(45deg)}
 .nav-hamburger.open span:last-child{transform:translateY(-6.5px) rotate(-45deg)}
-/* drawer */
-.nav-drawer{
-  position:absolute;top:var(--nav-h);left:0;right:0;
-  background:rgba(255,255,255,.97);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
-  border-bottom:1px solid var(--border);padding:1.5rem 2rem;
-  display:flex;flex-direction:column;gap:1rem;
-  transform:translateY(-12px);opacity:0;pointer-events:none;
-  transition:transform .4s var(--ease),opacity .4s;
-}
+.nav-drawer{position:absolute;top:var(--nav-h);left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--border);padding:1.5rem 2rem;display:flex;flex-direction:column;gap:1rem;transform:translateY(-12px);opacity:0;pointer-events:none;transition:transform .4s var(--ease),opacity .4s}
 .nav-drawer.open{transform:translateY(0);opacity:1;pointer-events:auto}
 .drawer-link{font-size:1.05rem;color:var(--ink);padding:.5rem 0;display:block;border-bottom:1px solid var(--border);transition:opacity .2s}
 .drawer-link:hover{opacity:.6}
 .nav-drawer ul .drawer-link:last-child{border-bottom:none}
 
-/* ══════════════════════════════════════════
-   HERO
-══════════════════════════════════════════ */
-#hero{
-  position:relative;min-height:100svh;
-  display:flex;align-items:center;justify-content:center;text-align:center;
-  overflow:hidden;
-  padding:calc(var(--nav-h) + 3rem) 2rem 7rem;
-}
-.hero-bg-grid{
-  position:absolute;inset:0;
-  background-image:radial-gradient(circle,rgba(0,0,0,.06) 1px,transparent 1px);
-  background-size:32px 32px;pointer-events:none;
-}
-.hero-orb{
-  position:absolute;width:700px;height:700px;border-radius:50%;
-  background:radial-gradient(circle,rgba(180,170,160,.15) 0%,transparent 70%);
-  top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;
-  animation:orbFloat 8s ease-in-out infinite alternate;
-}
+/* HERO */
+#hero{position:relative;min-height:100svh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;padding:calc(var(--nav-h) + 3rem) 2rem 7rem}
+.hero-bg-grid{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(0,0,0,.06) 1px,transparent 1px);background-size:32px 32px;pointer-events:none}
+.hero-orb{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(180,170,160,.15) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;animation:orbFloat 8s ease-in-out infinite alternate}
 @keyframes orbFloat{from{transform:translate(-50%,-50%) scale(1)}to{transform:translate(-50%,-52%) scale(1.06)}}
 .hero-content{position:relative;z-index:1;max-width:780px}
 .hero-eyebrow{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-light);margin-bottom:1.8rem}
@@ -162,7 +106,6 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 1rem)}
 .hero-sub{font-size:clamp(1rem,2vw,1.15rem);color:var(--ink-mid);max-width:560px;margin:0 auto 2.8rem;line-height:1.75}
 .hero-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:3rem}
 .hero-badges{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;font-size:.75rem;color:var(--ink-light);letter-spacing:.05em}
-/* hero staggered reveal */
 .hero-content > *{opacity:0;transform:translateY(28px);animation:heroUp .9s var(--ease) forwards}
 @keyframes heroUp{to{opacity:1;transform:translateY(0)}}
 .hero-eyebrow{animation-delay:.1s}
@@ -171,36 +114,19 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 1rem)}
 .hero-actions{animation-delay:.55s}
 .hero-badges{animation-delay:.7s}
 
-/* ══════════════════════════════════════════
-   CAROUSEL
-══════════════════════════════════════════ */
+/* CAROUSEL */
 .carousel-wrapper{position:relative;display:flex;align-items:center;gap:1rem}
-.carousel-track{
-  display:flex;gap:1.5rem;overflow-x:auto;scroll-snap-type:x mandatory;
-  scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none;
-  padding:1rem .25rem 2rem;flex:1;cursor:grab;
-}
+.carousel-track{display:flex;gap:1.5rem;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:1rem .25rem 2rem;flex:1;cursor:grab}
 .carousel-track::-webkit-scrollbar{display:none}
 .carousel-track.grabbing{cursor:grabbing}
-/* card */
-.video-card{
-  flex:0 0 340px;scroll-snap-align:start;border-radius:var(--r-lg);
-  background:var(--bg);border:1px solid var(--border);
-  box-shadow:0 4px 30px var(--shadow);overflow:hidden;cursor:pointer;
-  transition:transform .4s var(--ease),box-shadow .4s var(--ease);
-  user-select:none;
-}
+.video-card{flex:0 0 340px;scroll-snap-align:start;border-radius:var(--r-lg);background:var(--bg);border:1px solid var(--border);box-shadow:0 4px 30px var(--shadow);overflow:hidden;cursor:pointer;transition:transform .4s var(--ease),box-shadow .4s var(--ease);user-select:none}
 .video-card:hover{transform:translateY(-8px);box-shadow:0 20px 56px rgba(0,0,0,.13)}
 .video-card:active{transform:translateY(-4px)}
 .card-thumb{position:relative;aspect-ratio:16/10;background:#e8e4df;overflow:hidden}
 .card-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
 .video-card:hover .card-thumb img{transform:scale(1.05)}
 .card-thumb.no-img{background:linear-gradient(135deg,#ede9e3,#ddd9d4)}
-/* play overlay */
-.card-play-btn{
-  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  background:rgba(0,0,0,.22);opacity:0;transition:opacity .3s;
-}
+.card-play-btn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.22);opacity:0;transition:opacity .3s}
 .video-card:hover .card-play-btn{opacity:1}
 .card-play-btn svg{width:54px;height:54px;color:#fff;filter:drop-shadow(0 4px 12px rgba(0,0,0,.4));transform:scale(.85);transition:transform .3s var(--ease)}
 .video-card:hover .card-play-btn svg{transform:scale(1)}
@@ -208,30 +134,15 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 1rem)}
 .card-body{padding:1.4rem 1.6rem 1.6rem}
 .card-title{font-family:var(--font-display);font-size:1.25rem;font-weight:400;margin-bottom:.5rem}
 .card-desc{font-size:.88rem;color:var(--ink-mid);line-height:1.6}
-/* arrows */
-.carousel-arrow{
-  flex-shrink:0;width:46px;height:46px;border-radius:50%;
-  background:var(--bg);border:1px solid var(--border);
-  box-shadow:0 2px 12px var(--shadow);
-  display:flex;align-items:center;justify-content:center;
-  color:var(--ink);transition:transform .2s,box-shadow .2s,background .2s,color .2s;
-}
+.carousel-arrow{flex-shrink:0;width:46px;height:46px;border-radius:50%;background:var(--bg);border:1px solid var(--border);box-shadow:0 2px 12px var(--shadow);display:flex;align-items:center;justify-content:center;color:var(--ink);transition:transform .2s,box-shadow .2s,background .2s,color .2s}
 .carousel-arrow:hover{background:var(--ink);color:#fff;transform:scale(1.1);box-shadow:0 6px 20px rgba(0,0,0,.2)}
-.carousel-arrow:active{transform:scale(1)}
-/* dots */
 .carousel-dots{display:flex;gap:7px;justify-content:center;margin-top:.5rem}
 .carousel-dot{width:7px;height:7px;border-radius:50%;background:var(--border);border:none;cursor:pointer;transition:background .3s,transform .3s}
 .carousel-dot.active{background:var(--ink);transform:scale(1.3)}
-.carousel-dot:hover{background:var(--ink-light)}
 
-/* ══════════════════════════════════════════
-   HOW IT WORKS
-══════════════════════════════════════════ */
+/* HOW IT WORKS */
 .steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
-.step-card{
-  background:var(--bg);border:1px solid var(--border);border-radius:var(--r-lg);
-  padding:2.5rem 2rem;transition:transform .4s var(--ease),box-shadow .4s var(--ease);
-}
+.step-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-lg);padding:2.5rem 2rem;transition:transform .4s var(--ease),box-shadow .4s var(--ease)}
 .step-card:hover{transform:translateY(-5px);box-shadow:0 14px 44px var(--shadow)}
 .step-number{font-family:var(--font-display);font-size:3.5rem;font-weight:300;color:var(--border);line-height:1;margin-bottom:.5rem}
 .step-icon{font-size:1.4rem;margin-bottom:1.5rem}
@@ -239,25 +150,49 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 1rem)}
 .step-desc{font-size:.9rem;color:var(--ink-mid);line-height:1.75}
 
 /* ══════════════════════════════════════════
-   OCCASIONS
+   PRICING PACKAGES
 ══════════════════════════════════════════ */
-.occasions-grid{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center;max-width:820px;margin:0 auto}
-.occasion-pill{
-  padding:.75rem 1.5rem;border-radius:var(--r-full);border:1.5px solid var(--border);
-  font-size:.92rem;color:var(--ink-mid);
-  transition:border-color .25s,color .25s,background .25s,transform .25s var(--ease);
-  cursor:default;
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;max-width:860px;margin:0 auto}
+
+.pricing-card{
+  border-radius:var(--r-lg);border:1.5px solid var(--border);
+  padding:2.5rem;position:relative;overflow:hidden;
+  transition:transform .4s var(--ease),box-shadow .4s var(--ease);
+  background:var(--bg);
 }
+.pricing-card:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,.1)}
+
+/* Premium card gold accent */
+.pricing-card.premium{border-color:var(--gold);background:linear-gradient(135deg,#fffdf7 0%,#fff 100%)}
+.pricing-card.premium::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),#e8c96a)}
+
+.pricing-badge{display:inline-block;font-size:.65rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;padding:.3rem .8rem;border-radius:var(--r-full);margin-bottom:1.5rem}
+.pricing-badge.basic{background:rgba(0,0,0,.06);color:var(--ink-mid)}
+.pricing-badge.premium{background:var(--gold-light);color:#8a6a1a}
+
+.pricing-name{font-family:var(--font-display);font-size:1.8rem;font-weight:300;margin-bottom:.5rem}
+.pricing-desc{font-size:.88rem;color:var(--ink-mid);margin-bottom:1.8rem;line-height:1.6}
+
+.pricing-price{display:flex;align-items:baseline;gap:.3rem;margin-bottom:2rem}
+.pricing-amount{font-family:var(--font-display);font-size:3.5rem;font-weight:300;line-height:1}
+.pricing-currency{font-size:1.2rem;color:var(--ink-mid);margin-top:.5rem}
+.pricing-period{font-size:.85rem;color:var(--ink-light)}
+
+.pricing-features{list-style:none;margin-bottom:2rem;display:flex;flex-direction:column;gap:.8rem}
+.pricing-features li{display:flex;align-items:center;gap:.7rem;font-size:.9rem;color:var(--ink-mid)}
+.pricing-features li::before{content:'✓';font-weight:600;color:var(--ink);flex-shrink:0}
+.pricing-card.premium .pricing-features li::before{color:var(--gold)}
+
+.pricing-cta{width:100%;justify-content:center;padding:1rem 2rem;border-radius:var(--r-md);font-size:.95rem}
+
+/* OCCASIONS */
+.occasions-grid{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center;max-width:820px;margin:0 auto}
+.occasion-pill{padding:.75rem 1.5rem;border-radius:var(--r-full);border:1.5px solid var(--border);font-size:.92rem;color:var(--ink-mid);transition:border-color .25s,color .25s,background .25s,transform .25s var(--ease);cursor:default}
 .occasion-pill:hover{border-color:var(--ink);color:var(--ink);background:rgba(0,0,0,.03);transform:translateY(-2px)}
 
-/* ══════════════════════════════════════════
-   TESTIMONIALS
-══════════════════════════════════════════ */
+/* TESTIMONIALS */
 .testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
-.testimonial-card{
-  background:var(--bg);border:1px solid var(--border);border-radius:var(--r-lg);
-  padding:2.2rem;transition:transform .4s var(--ease),box-shadow .4s var(--ease);
-}
+.testimonial-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-lg);padding:2.2rem;transition:transform .4s var(--ease),box-shadow .4s var(--ease)}
 .testimonial-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px var(--shadow)}
 .testimonial-quote{font-family:var(--font-display);font-size:1.1rem;font-style:italic;line-height:1.7;margin-bottom:1.6rem}
 .testimonial-author{display:flex;align-items:center;gap:.8rem}
@@ -265,35 +200,36 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 1rem)}
 .author-name{font-size:.88rem;font-weight:500}
 .author-role{font-size:.78rem;color:var(--ink-light)}
 
-/* ══════════════════════════════════════════
-   FORM
-══════════════════════════════════════════ */
+/* FORM */
 .request-form{display:flex;flex-direction:column;gap:1.2rem;margin-top:2rem}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
 .form-group{display:flex;flex-direction:column;gap:.5rem;position:relative}
 .form-group label{font-size:.82rem;font-weight:500;letter-spacing:.02em}
 .label-hint{font-weight:400;color:var(--ink-light);font-size:.78rem}
-.form-group input,.form-group textarea,.form-group select{
-  width:100%;padding:.9rem 1.1rem;border:1.5px solid var(--border);border-radius:var(--r-md);
-  background:var(--bg);color:var(--ink);font-size:.95rem;outline:none;
-  appearance:none;-webkit-appearance:none;
-  transition:border-color .25s,box-shadow .25s;
-}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:.9rem 1.1rem;border:1.5px solid var(--border);border-radius:var(--r-md);background:var(--bg);color:var(--ink);font-size:.95rem;outline:none;appearance:none;-webkit-appearance:none;transition:border-color .25s,box-shadow .25s}
 .form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--ink);box-shadow:0 0 0 3px rgba(0,0,0,.06)}
 .form-group input.error,.form-group textarea.error,.form-group select.error{border-color:#c0392b}
 .form-error{font-size:.78rem;color:#c0392b;display:none}
 .form-error.visible{display:block}
-.form-group select{
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 1rem center;background-size:16px;padding-right:2.5rem;cursor:pointer;
-}
+.form-group select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;background-size:16px;padding-right:2.5rem;cursor:pointer}
 .form-group textarea{resize:vertical;min-height:130px}
-/* file upload */
-.file-upload-zone{
-  position:relative;border:1.5px dashed var(--border);border-radius:var(--r-md);
-  padding:2rem;text-align:center;cursor:pointer;overflow:hidden;
-  transition:border-color .25s,background .25s;
+
+/* Selected package indicator */
+.selected-package-banner{
+  display:none;background:var(--bg-alt);border:1.5px solid var(--border);
+  border-radius:var(--r-md);padding:1rem 1.4rem;
+  align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;
 }
+.selected-package-banner.visible{display:flex}
+.selected-package-banner.premium-selected{border-color:var(--gold);background:var(--gold-light)}
+.spb-label{font-size:.78rem;color:var(--ink-light);text-transform:uppercase;letter-spacing:.1em}
+.spb-name{font-family:var(--font-display);font-size:1.2rem;font-weight:400}
+.spb-price{font-family:var(--font-display);font-size:1.4rem;font-weight:300}
+.spb-change{font-size:.78rem;color:var(--ink-light);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.spb-change:hover{color:var(--ink)}
+
+/* File upload */
+.file-upload-zone{position:relative;border:1.5px dashed var(--border);border-radius:var(--r-md);padding:2rem;text-align:center;cursor:pointer;overflow:hidden;transition:border-color .25s,background .25s}
 .file-upload-zone:hover,.file-upload-zone.dragover{border-color:var(--ink);background:rgba(0,0,0,.02)}
 .file-input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;z-index:2}
 .file-upload-ui{pointer-events:none}
@@ -305,15 +241,15 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 1rem)}
 .file-preview img{width:100%;max-height:200px;object-fit:contain;border-radius:var(--r-sm)}
 .file-remove{position:absolute;top:-10px;right:-10px;width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;font-size:.7rem;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;transition:transform .2s}
 .file-remove:hover{transform:scale(1.15)}
-/* success */
-.form-success{text-align:center;padding:2rem;border:1px solid var(--border);border-radius:var(--r-lg);margin-top:1rem;animation:fadeUp .5s var(--ease) forwards}
-.success-icon{font-size:2rem;margin-bottom:1rem}
-.form-success h3{font-family:var(--font-display);font-size:1.6rem;font-weight:300;margin-bottom:.6rem}
-.form-success p{font-size:.9rem;color:var(--ink-mid)}
 
-/* ══════════════════════════════════════════
-   FOOTER
-══════════════════════════════════════════ */
+/* Success */
+.form-success{text-align:center;padding:2.5rem 2rem;border:1px solid var(--border);border-radius:var(--r-lg);margin-top:1rem;animation:fadeUp .5s var(--ease) forwards}
+.success-icon{font-size:2.5rem;margin-bottom:1rem}
+.form-success h3{font-family:var(--font-display);font-size:1.8rem;font-weight:300;margin-bottom:.6rem}
+.form-success p{font-size:.95rem;color:var(--ink-mid);line-height:1.7}
+.form-success .payment-note{margin-top:1.5rem;padding:1rem;background:var(--bg-alt);border-radius:var(--r-md);font-size:.85rem;color:var(--ink-mid)}
+
+/* FOOTER */
 .footer{border-top:1px solid var(--border);padding:4rem 0 2rem}
 .footer-top{display:flex;align-items:flex-start;gap:3rem;margin-bottom:4rem;flex-wrap:wrap}
 .footer-brand{flex:1;min-width:180px}
@@ -330,51 +266,28 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 1rem)}
 .footer-legal a{color:var(--ink-light);transition:color .2s}
 .footer-legal a:hover{color:var(--ink)}
 
-/* ══════════════════════════════════════════
-   MODAL
-══════════════════════════════════════════ */
-.modal-overlay{
-  position:fixed;inset:0;z-index:500;
-  background:rgba(0,0,0,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  display:flex;align-items:center;justify-content:center;padding:2rem;
-  opacity:0;transition:opacity .35s var(--ease);
-}
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:center;padding:2rem;opacity:0;transition:opacity .35s var(--ease)}
 .modal-overlay[hidden]{display:none}
 .modal-overlay:not([hidden]){display:flex}
 .modal-overlay.visible{opacity:1}
-.modal-close{
-  position:absolute;top:1.5rem;right:1.5rem;width:44px;height:44px;border-radius:50%;
-  background:rgba(255,255,255,.13);color:#fff;font-size:.95rem;
-  display:flex;align-items:center;justify-content:center;z-index:10;
-  transition:background .2s,transform .3s var(--ease);
-}
+.modal-close{position:absolute;top:1.5rem;right:1.5rem;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.13);color:#fff;font-size:.95rem;display:flex;align-items:center;justify-content:center;z-index:10;transition:background .2s,transform .3s var(--ease)}
 .modal-close:hover{background:rgba(255,255,255,.25);transform:rotate(90deg) scale(1.1)}
-.modal-player{
-  width:100%;max-width:900px;border-radius:var(--r-lg);overflow:hidden;
-  aspect-ratio:16/9;background:#000;
-  transform:scale(.93);transition:transform .4s var(--ease);
-  box-shadow:0 32px 80px rgba(0,0,0,.65);
-}
+.modal-player{width:100%;max-width:900px;border-radius:var(--r-lg);overflow:hidden;aspect-ratio:16/9;background:#000;transform:scale(.93);transition:transform .4s var(--ease);box-shadow:0 32px 80px rgba(0,0,0,.65)}
 .modal-overlay.visible .modal-player{transform:scale(1)}
 .modal-player iframe,.modal-player video{width:100%;height:100%;border:none}
 
-/* ══════════════════════════════════════════
-   SCROLL REVEAL
-══════════════════════════════════════════ */
+/* REVEAL */
 .reveal{opacity:0;transform:translateY(32px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
 .reveal.in-view{opacity:1;transform:translateY(0)}
-.step-card.reveal.in-view,.testimonial-card.reveal.in-view{transition-delay:var(--delay,0s)}
+.step-card.reveal.in-view,.testimonial-card.reveal.in-view,.pricing-card.reveal.in-view{transition-delay:var(--delay,0s)}
 
-/* ══════════════════════════════════════════
-   UTILITIES
-══════════════════════════════════════════ */
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
-/* ══════════════════════════════════════════
-   RESPONSIVE
-══════════════════════════════════════════ */
+/* RESPONSIVE */
 @media(max-width:900px){
   .steps-grid,.testimonials-grid{grid-template-columns:1fr;max-width:500px;margin:0 auto}
+  .pricing-grid{grid-template-columns:1fr;max-width:460px}
   .form-row{grid-template-columns:1fr}
   .nav-links,.btn-nav{display:none}
   .nav-hamburger{display:flex}
@@ -394,23 +307,21 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 1rem)}
 </head>
 <body>
 
-<!-- ═══════════════════════════════ LOADER ═══════════════════════════════ -->
 <div id="loader">
   <div class="loader-logo">FrameHeart</div>
   <div class="loader-bar"><span></span></div>
 </div>
 
-<!-- ═══════════════════════════════ NAV ═══════════════════════════════ -->
 <nav id="nav">
   <div class="nav-inner">
     <a href="#hero" class="nav-logo">FrameHeart</a>
     <ul class="nav-links">
       <li><a href="#showcase">Videos</a></li>
       <li><a href="#how">How it works</a></li>
-      <li><a href="#occasions">Occasions</a></li>
-      <li><a href="#request">Request</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#request">Order</a></li>
     </ul>
-    <a href="#request" class="btn btn-nav">Create yours →</a>
+    <a href="#pricing" class="btn btn-nav">See packages →</a>
     <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
       <span></span><span></span>
     </button>
@@ -419,26 +330,26 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 1rem)}
     <ul>
       <li><a href="#showcase" class="drawer-link">Videos</a></li>
       <li><a href="#how" class="drawer-link">How it works</a></li>
-      <li><a href="#occasions" class="drawer-link">Occasions</a></li>
-      <li><a href="#request" class="drawer-link">Request</a></li>
+      <li><a href="#pricing" class="drawer-link">Pricing</a></li>
+      <li><a href="#request" class="drawer-link">Order</a></li>
     </ul>
-    <a href="#request" class="btn btn-primary drawer-link" style="margin-top:1.5rem">Create yours</a>
+    <a href="#pricing" class="btn btn-primary drawer-link" style="margin-top:1.5rem">See packages</a>
   </div>
 </nav>
 
-<!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
+<!-- HERO -->
 <section id="hero">
   <div class="hero-bg-grid"></div>
   <div class="hero-content">
     <p class="hero-eyebrow">AI-Powered · Hyper-Personal · Cinematic</p>
     <h1 class="hero-title">Personalized<br/><em>AI Videos</em></h1>
-    <p class="hero-sub">Imagine a video of Santa calling your child by name, wishing them a magical Christmas — crafted by AI just for them. Every face. Every word. Every moment. Yours.</p>
+    <p class="hero-sub">Imagine Santa calling your child by name, wishing them a magical Christmas — crafted by AI, just for them. Every face. Every word. Every moment. Yours.</p>
     <div class="hero-actions">
-      <a href="#request" class="btn btn-primary">Create a video</a>
+      <a href="#pricing" class="btn btn-primary">See packages</a>
       <a href="#showcase" class="btn btn-ghost">Watch examples ↓</a>
     </div>
     <div class="hero-badges">
-      <span>✦ Delivered in 48 h</span>
+      <span>✦ Delivered in 24–72h</span>
       <span>✦ 4K Quality</span>
       <span>✦ 100% Unique</span>
     </div>
@@ -446,7 +357,7 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 1rem)}
   <div class="hero-orb"></div>
 </section>
 
-<!-- ═══════════════════════════════ SHOWCASE ═══════════════════════════════ -->
+<!-- SHOWCASE -->
 <section id="showcase" class="section">
   <div class="container">
     <div class="section-header reveal">
@@ -455,78 +366,32 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 1rem)}
       <p class="section-sub">Every video is crafted uniquely — no two are ever alike.</p>
     </div>
     <div class="carousel-wrapper reveal">
-      <button class="carousel-arrow arrow-left" id="arrowLeft" aria-label="Previous">
+      <button class="carousel-arrow" id="arrowLeft" aria-label="Previous">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
       <div class="carousel-track" id="carouselTrack">
-
-        <!-- ✏️ CARD 1 — edit data-video with your YouTube embed URL -->
         <article class="video-card" data-video="https://www.youtube.com/embed/dQw4w9WgXcQ" data-type="youtube">
-          <div class="card-thumb">
-            <img src="assets/thumbs/thumb-santa.jpg" alt="Santa" loading="lazy" onerror="this.parentElement.classList.add('no-img')"/>
-            <div class="card-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-            <span class="card-badge">Christmas</span>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">Santa's Personal Message</h3>
-            <p class="card-desc">Santa greets little Emma by name and mentions her favourite toy — pure holiday magic.</p>
-          </div>
+          <div class="card-thumb"><img src="assets/thumbs/thumb-santa.jpg" alt="Santa" loading="lazy" onerror="this.parentElement.classList.add('no-img')"/><div class="card-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div><span class="card-badge">Christmas</span></div>
+          <div class="card-body"><h3 class="card-title">Santa's Personal Message</h3><p class="card-desc">Santa greets little Emma by name and mentions her favourite toy — pure holiday magic.</p></div>
         </article>
-
-        <!-- ✏️ CARD 2 -->
         <article class="video-card" data-video="https://www.youtube.com/embed/dQw4w9WgXcQ" data-type="youtube">
-          <div class="card-thumb">
-            <img src="assets/thumbs/thumb-birthday.jpg" alt="Birthday" loading="lazy" onerror="this.parentElement.classList.add('no-img')"/>
-            <div class="card-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-            <span class="card-badge">Birthday</span>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">Magical Birthday Surprise</h3>
-            <p class="card-desc">A cinematic birthday video personalised with the recipient's name and inside jokes.</p>
-          </div>
+          <div class="card-thumb"><img src="assets/thumbs/thumb-birthday.jpg" alt="Birthday" loading="lazy" onerror="this.parentElement.classList.add('no-img')"/><div class="card-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div><span class="card-badge">Birthday</span></div>
+          <div class="card-body"><h3 class="card-title">Magical Birthday Surprise</h3><p class="card-desc">A cinematic birthday video personalised with the recipient's name and inside jokes.</p></div>
         </article>
-
-        <!-- ✏️ CARD 3 -->
         <article class="video-card" data-video="https://www.youtube.com/embed/dQw4w9WgXcQ" data-type="youtube">
-          <div class="card-thumb">
-            <img src="assets/thumbs/thumb-holiday.jpg" alt="Holiday" loading="lazy" onerror="this.parentElement.classList.add('no-img')"/>
-            <div class="card-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-            <span class="card-badge">Holiday</span>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">New Year Family Greeting</h3>
-            <p class="card-desc">Celebrate the new year with a warm, AI-crafted message from your whole family.</p>
-          </div>
+          <div class="card-thumb"><img src="assets/thumbs/thumb-holiday.jpg" alt="Holiday" loading="lazy" onerror="this.parentElement.classList.add('no-img')"/><div class="card-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div><span class="card-badge">Holiday</span></div>
+          <div class="card-body"><h3 class="card-title">New Year Family Greeting</h3><p class="card-desc">Celebrate the new year with a warm, AI-crafted message from your whole family.</p></div>
         </article>
-
-        <!-- ✏️ CARD 4 -->
         <article class="video-card" data-video="https://www.youtube.com/embed/dQw4w9WgXcQ" data-type="youtube">
-          <div class="card-thumb">
-            <img src="assets/thumbs/thumb-wedding.jpg" alt="Wedding" loading="lazy" onerror="this.parentElement.classList.add('no-img')"/>
-            <div class="card-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-            <span class="card-badge">Wedding</span>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">Wedding Congratulations</h3>
-            <p class="card-desc">Send the couple a cinematic AI video tribute from everyone who loves them.</p>
-          </div>
+          <div class="card-thumb"><img src="assets/thumbs/thumb-wedding.jpg" alt="Wedding" loading="lazy" onerror="this.parentElement.classList.add('no-img')"/><div class="card-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div><span class="card-badge">Wedding</span></div>
+          <div class="card-body"><h3 class="card-title">Wedding Congratulations</h3><p class="card-desc">Send the couple a cinematic AI video tribute from everyone who loves them.</p></div>
         </article>
-
-        <!-- ✏️ CARD 5 -->
         <article class="video-card" data-video="https://www.youtube.com/embed/dQw4w9WgXcQ" data-type="youtube">
-          <div class="card-thumb">
-            <img src="assets/thumbs/thumb-graduation.jpg" alt="Graduation" loading="lazy" onerror="this.parentElement.classList.add('no-img')"/>
-            <div class="card-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-            <span class="card-badge">Graduation</span>
-          </div>
-          <div class="card-body">
-            <h3 class="card-title">Graduation Day Tribute</h3>
-            <p class="card-desc">Honour their achievement with a beautifully produced personalised video message.</p>
-          </div>
+          <div class="card-thumb"><img src="assets/thumbs/thumb-graduation.jpg" alt="Graduation" loading="lazy" onerror="this.parentElement.classList.add('no-img')"/><div class="card-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div><span class="card-badge">Graduation</span></div>
+          <div class="card-body"><h3 class="card-title">Graduation Day Tribute</h3><p class="card-desc">Honour their achievement with a beautifully produced personalised video message.</p></div>
         </article>
-
-      </div><!-- /track -->
-      <button class="carousel-arrow arrow-right" id="arrowRight" aria-label="Next">
+      </div>
+      <button class="carousel-arrow" id="arrowRight" aria-label="Next">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
     </div>
@@ -534,7 +399,7 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 1rem)}
   </div>
 </section>
 
-<!-- ═══════════════════════════════ HOW IT WORKS ═══════════════════════════════ -->
+<!-- HOW IT WORKS -->
 <section id="how" class="section section-tinted">
   <div class="container">
     <div class="section-header reveal">
@@ -545,32 +410,88 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 1rem)}
       <div class="step-card reveal">
         <div class="step-number">01</div>
         <div class="step-icon">✦</div>
-        <h3 class="step-title">Tell us the story</h3>
-        <p class="step-desc">Fill in a simple form with names, the occasion, and any personal details that make it uniquely theirs. Upload a photo if you'd like their face included.</p>
+        <h3 class="step-title">Choose your package</h3>
+        <p class="step-desc">Select Basic or Premium depending on your needs. Fill in the details — names, occasion, personal touches.</p>
       </div>
       <div class="step-card reveal" style="--delay:.15s">
         <div class="step-number">02</div>
         <div class="step-icon">◈</div>
         <h3 class="step-title">AI crafts the video</h3>
-        <p class="step-desc">Our cinematic AI system generates a stunning, fully personalised video — script, visuals and voice all tailored to your request.</p>
+        <p class="step-desc">Our cinematic AI generates a stunning, fully personalised video — script, visuals and voice tailored to your request.</p>
       </div>
       <div class="step-card reveal" style="--delay:.3s">
         <div class="step-number">03</div>
         <div class="step-icon">◉</div>
         <h3 class="step-title">Share the moment</h3>
-        <p class="step-desc">Receive your 4K video within 48 hours. Download and share it anywhere — a gift they'll treasure forever.</p>
+        <p class="step-desc">Receive your 4K video within 24–72 hours. Download and share it anywhere — a gift they'll treasure forever.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════════════════ OCCASIONS ═══════════════════════════════ -->
-<section id="occasions" class="section">
+<!-- PRICING -->
+<section id="pricing" class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="eyebrow">Packages</p>
+      <h2 class="section-title">Simple, honest<br/><em>pricing</em></h2>
+      <p class="section-sub">Two packages. No hidden fees. Pick the one that fits your moment.</p>
+    </div>
+    <div class="pricing-grid">
+
+      <!-- BASIC -->
+      <div class="pricing-card reveal" data-package="basic" data-price="10">
+        <span class="pricing-badge basic">Basic</span>
+        <h3 class="pricing-name">Essential</h3>
+        <p class="pricing-desc">A beautiful personalised video for any occasion — warm, meaningful and delivered fast.</p>
+        <div class="pricing-price">
+          <span class="pricing-currency">€</span>
+          <span class="pricing-amount">10</span>
+          <span class="pricing-period">/ video</span>
+        </div>
+        <ul class="pricing-features">
+          <li>Personalised video 30–45 sec</li>
+          <li>Custom name & message</li>
+          <li>Any occasion</li>
+          <li>HD Quality</li>
+          <li>Delivered in 72 hours</li>
+          <li>1 revision included</li>
+        </ul>
+        <button class="btn btn-primary pricing-cta" onclick="selectPackage('basic')">Choose Basic →</button>
+      </div>
+
+      <!-- PREMIUM -->
+      <div class="pricing-card premium reveal" data-package="premium" data-price="20" style="--delay:.15s">
+        <span class="pricing-badge premium">⭐ Premium</span>
+        <h3 class="pricing-name">Cinematic</h3>
+        <p class="pricing-desc">A full cinematic experience with your loved one's face integrated in the video — unforgettable.</p>
+        <div class="pricing-price">
+          <span class="pricing-currency">€</span>
+          <span class="pricing-amount">20</span>
+          <span class="pricing-period">/ video</span>
+        </div>
+        <ul class="pricing-features">
+          <li>Cinematic video 60–90 sec</li>
+          <li>Face integration from photo</li>
+          <li>Custom name, message & story</li>
+          <li>4K Ultra HD Quality</li>
+          <li>Priority delivery in 24 hours</li>
+          <li>2 revisions included</li>
+          <li>Background music personalised</li>
+        </ul>
+        <button class="btn btn-gold pricing-cta" onclick="selectPackage('premium')">Choose Premium →</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- OCCASIONS -->
+<section id="occasions" class="section section-tinted">
   <div class="container">
     <div class="section-header reveal">
       <p class="eyebrow">Every occasion</p>
       <h2 class="section-title">What would you like<br/><em>to celebrate?</em></h2>
-      <p class="section-sub">From childhood wonder to milestone achievements — we create videos for every moment that matters.</p>
     </div>
     <div class="occasions-grid reveal">
       <span class="occasion-pill">🎅 Christmas</span>
@@ -589,8 +510,8 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 1rem)}
   </div>
 </section>
 
-<!-- ═══════════════════════════════ TESTIMONIALS ═══════════════════════════════ -->
-<section class="section section-tinted">
+<!-- TESTIMONIALS -->
+<section class="section">
   <div class="container">
     <div class="section-header reveal">
       <p class="eyebrow">Stories</p>
@@ -598,56 +519,53 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 1rem)}
     </div>
     <div class="testimonials-grid">
       <div class="testimonial-card reveal">
-        <p class="testimonial-quote">"My daughter cried happy tears when Santa said her name and mentioned her favourite teddy bear. I cried too. Absolutely magical."</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">S</div>
-          <div><p class="author-name">Sarah M.</p><p class="author-role">Mum of two, London</p></div>
-        </div>
+        <p class="testimonial-quote">"My daughter cried happy tears when Santa said her name and mentioned her favourite teddy bear. Absolutely magical."</p>
+        <div class="testimonial-author"><div class="author-avatar">S</div><div><p class="author-name">Sarah M.</p><p class="author-role">Mum of two, London</p></div></div>
       </div>
       <div class="testimonial-card reveal" style="--delay:.15s">
-        <p class="testimonial-quote">"We sent the wedding congratulations video to the couple and the whole room went silent. It was like a short film — beautiful."</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">D</div>
-          <div><p class="author-name">David K.</p><p class="author-role">Best man, New York</p></div>
-        </div>
+        <p class="testimonial-quote">"We sent the wedding congratulations video and the whole room went silent. It was like a short film — beautiful."</p>
+        <div class="testimonial-author"><div class="author-avatar">D</div><div><p class="author-name">David K.</p><p class="author-role">Best man, New York</p></div></div>
       </div>
       <div class="testimonial-card reveal" style="--delay:.3s">
-        <p class="testimonial-quote">"The birthday video for my dad's 70th was delivered in less than 24 hours. The quality is unreal. This is the future of gifting."</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">A</div>
-          <div><p class="author-name">Ana R.</p><p class="author-role">Product designer, Lisbon</p></div>
-        </div>
+        <p class="testimonial-quote">"The birthday video for my dad's 70th was delivered in less than 24 hours. The quality is unreal. Future of gifting."</p>
+        <div class="testimonial-author"><div class="author-avatar">A</div><div><p class="author-name">Ana R.</p><p class="author-role">Product designer, Lisbon</p></div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════════════════ REQUEST FORM ═══════════════════════════════ -->
-<section id="request" class="section">
+<!-- REQUEST FORM -->
+<section id="request" class="section section-tinted">
   <div class="container container-narrow">
     <div class="section-header reveal">
       <p class="eyebrow">Order</p>
       <h2 class="section-title">Create your<br/><em>video</em></h2>
-      <p class="section-sub">Fill in the details below and we'll take care of the rest.</p>
+      <p class="section-sub">Fill in the details and we'll get started right away.</p>
     </div>
+
     <form class="request-form reveal" id="requestForm" novalidate>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="yourName">Your name</label>
-          <input type="text" id="yourName" name="yourName" placeholder="e.g. Sarah Johnson" required autocomplete="name"/>
-          <span class="form-error">Please enter your name.</span>
+
+      <!-- Selected package banner -->
+      <div class="selected-package-banner" id="packageBanner">
+        <div>
+          <p class="spb-label">Selected package</p>
+          <p class="spb-name" id="bannerName">—</p>
         </div>
-        <div class="form-group">
-          <label for="recipientName">Recipient's name</label>
-          <input type="text" id="recipientName" name="recipientName" placeholder="e.g. Emma" required/>
-          <span class="form-error">Please enter the recipient's name.</span>
+        <div style="display:flex;align-items:center;gap:1.5rem">
+          <p class="spb-price" id="bannerPrice">—</p>
+          <span class="spb-change" onclick="document.getElementById('request').scrollIntoView({behavior:'smooth'});document.getElementById('packageSelect').focus()">Change</span>
         </div>
       </div>
+
       <div class="form-row">
         <div class="form-group">
-          <label for="email">Your email</label>
-          <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email"/>
-          <span class="form-error">Please enter a valid email.</span>
+          <label for="packageSelect">Package</label>
+          <select id="packageSelect" name="package" required>
+            <option value="" disabled selected>Select a package…</option>
+            <option value="basic">Basic — €10 (HD, 72h delivery)</option>
+            <option value="premium">Premium — €20 (4K, 24h delivery)</option>
+          </select>
+          <span class="form-error">Please select a package.</span>
         </div>
         <div class="form-group">
           <label for="occasion">Occasion</label>
@@ -668,19 +586,38 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 1rem)}
           <span class="form-error">Please select an occasion.</span>
         </div>
       </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="yourName">Your name</label>
+          <input type="text" id="yourName" name="yourName" placeholder="e.g. Sarah Johnson" required autocomplete="name"/>
+          <span class="form-error">Please enter your name.</span>
+        </div>
+        <div class="form-group">
+          <label for="recipientName">Recipient's name</label>
+          <input type="text" id="recipientName" name="recipientName" placeholder="e.g. Emma" required/>
+          <span class="form-error">Please enter the recipient's name.</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Your email</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email"/>
+        <span class="form-error">Please enter a valid email.</span>
+      </div>
+
       <div class="form-group">
         <label for="message">Message details</label>
         <textarea id="message" name="message" placeholder="Tell us anything personal — favourite toys, inside jokes, memories, specific wishes… The more detail, the more magical the video." rows="5" required></textarea>
         <span class="form-error">Please add some details (min 10 characters).</span>
       </div>
+
       <div class="form-group">
-        <label>Upload a photo <span class="label-hint">(optional — helps personalise the video)</span></label>
+        <label>Upload a photo <span class="label-hint">(recommended for Premium — face integration)</span></label>
         <div class="file-upload-zone" id="fileZone">
           <input type="file" id="photoUpload" name="photoUpload" accept="image/*" class="file-input"/>
           <div class="file-upload-ui">
-            <div class="file-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            </div>
+            <div class="file-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
             <p class="file-label">Drag & drop or <span>browse</span></p>
             <p class="file-hint">JPG, PNG — max 10 MB</p>
           </div>
@@ -690,20 +627,26 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 1rem)}
           </div>
         </div>
       </div>
+
       <button type="submit" class="btn btn-primary btn-submit" id="submitBtn">
         <span class="btn-text">Send my request →</span>
         <span class="btn-loading">Sending…</span>
       </button>
+
       <div class="form-success" id="formSuccess" hidden>
         <div class="success-icon">✦</div>
         <h3>Request received!</h3>
-        <p>Thank you! We'll start crafting your video and send it to your inbox within 48 hours.</p>
+        <p>Thank you! We'll review your order and send you a payment link via email within a few hours. Once payment is confirmed, we start crafting your video.</p>
+        <div class="payment-note">
+          💳 You'll receive a secure payment link at your email address. Payment is required before production begins.
+        </div>
       </div>
+
     </form>
   </div>
 </section>
 
-<!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
+<!-- FOOTER -->
 <footer class="footer">
   <div class="container">
     <div class="footer-top">
@@ -715,7 +658,7 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 1rem)}
         <ul>
           <li><a href="#showcase">Videos</a></li>
           <li><a href="#how">How it works</a></li>
-          <li><a href="#occasions">Occasions</a></li>
+          <li><a href="#pricing">Pricing</a></li>
           <li><a href="#request">Order</a></li>
         </ul>
       </nav>
@@ -727,341 +670,192 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 1rem)}
     </div>
     <div class="footer-bottom">
       <p>© 2025 FrameHeart. All rights reserved.</p>
-      <div class="footer-legal">
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Service</a>
-      </div>
+      <div class="footer-legal"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a></div>
     </div>
   </div>
 </footer>
 
-<!-- ═══════════════════════════════ MODAL ═══════════════════════════════ -->
 <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" hidden>
   <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
   <div class="modal-player" id="modalPlayer"></div>
 </div>
 
-<!-- ═══════════════════════════════ JAVASCRIPT ═══════════════════════════════ -->
 <script>
-/* ── 1. LOADER ── */
+/* ── LOADER ── */
 (function(){
-  var loader = document.getElementById('loader');
-  var done = false;
-
-  function hide(){
-    if(done) return;
-    done = true;
-    setTimeout(function(){
-      loader.classList.add('hidden');
-      setTimeout(function(){ loader.remove(); }, 700);
-    }, 900);
-  }
-
-  if(document.readyState === 'complete'){
-    hide();
-  } else {
-    window.addEventListener('load', hide);
-    // Safety fallback — always hide after 3s no matter what
-    setTimeout(hide, 3000);
-  }
+  var loader=document.getElementById('loader'),done=false;
+  function hide(){if(done)return;done=true;setTimeout(function(){loader.classList.add('hidden');setTimeout(function(){loader.remove();},700);},900);}
+  if(document.readyState==='complete'){hide();}else{window.addEventListener('load',hide);setTimeout(hide,3000);}
 })();
 
-/* ── 2. NAV ── */
+/* ── NAV ── */
 (function(){
-  var nav       = document.getElementById('nav');
-  var burger    = document.getElementById('hamburger');
-  var drawer    = document.getElementById('navDrawer');
-
-  window.addEventListener('scroll', function(){
-    nav.classList.toggle('scrolled', window.scrollY > 20);
-  }, {passive:true});
-
-  burger.addEventListener('click', function(){
-    var open = burger.classList.toggle('open');
-    drawer.classList.toggle('open', open);
-    burger.setAttribute('aria-expanded', open);
-  });
-
-  document.querySelectorAll('.drawer-link').forEach(function(link){
-    link.addEventListener('click', function(){
-      burger.classList.remove('open');
-      drawer.classList.remove('open');
-      burger.setAttribute('aria-expanded','false');
-    });
-  });
-
-  document.addEventListener('click', function(e){
-    if(!nav.contains(e.target)){
-      burger.classList.remove('open');
-      drawer.classList.remove('open');
-    }
-  });
+  var nav=document.getElementById('nav'),burger=document.getElementById('hamburger'),drawer=document.getElementById('navDrawer');
+  window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>20);},{passive:true});
+  burger.addEventListener('click',function(){var open=burger.classList.toggle('open');drawer.classList.toggle('open',open);burger.setAttribute('aria-expanded',open);});
+  document.querySelectorAll('.drawer-link').forEach(function(l){l.addEventListener('click',function(){burger.classList.remove('open');drawer.classList.remove('open');burger.setAttribute('aria-expanded','false');});});
+  document.addEventListener('click',function(e){if(!nav.contains(e.target)){burger.classList.remove('open');drawer.classList.remove('open');}});
 })();
 
-/* ── 3. SMOOTH SCROLL for all anchor links ── */
+/* ── SMOOTH SCROLL ── */
 document.querySelectorAll('a[href^="#"]').forEach(function(a){
-  a.addEventListener('click', function(e){
-    var id = a.getAttribute('href');
-    var target = document.querySelector(id);
-    if(target){
-      e.preventDefault();
-      target.scrollIntoView({behavior:'smooth', block:'start'});
-    }
-  });
+  a.addEventListener('click',function(e){var t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}});
 });
 
-/* ── 4. SCROLL REVEAL ── */
+/* ── REVEAL ── */
 (function(){
-  var els = document.querySelectorAll('.reveal');
-  if(!window.IntersectionObserver){
-    els.forEach(function(el){ el.classList.add('in-view'); });
-    return;
-  }
-  var obs = new IntersectionObserver(function(entries){
-    entries.forEach(function(entry){
-      if(entry.isIntersecting){
-        entry.target.classList.add('in-view');
-        obs.unobserve(entry.target);
-      }
-    });
-  },{threshold:0.1, rootMargin:'0px 0px -40px 0px'});
-  els.forEach(function(el){ obs.observe(el); });
+  var els=document.querySelectorAll('.reveal');
+  if(!window.IntersectionObserver){els.forEach(function(el){el.classList.add('in-view');});return;}
+  var obs=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add('in-view');obs.unobserve(entry.target);}});},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+  els.forEach(function(el){obs.observe(el);});
 })();
 
-/* ── 5. CAROUSEL ── */
+/* ── CAROUSEL ── */
 (function(){
-  var track  = document.getElementById('carouselTrack');
-  var lBtn   = document.getElementById('arrowLeft');
-  var rBtn   = document.getElementById('arrowRight');
-  var dotsWrap = document.getElementById('carouselDots');
-  if(!track) return;
-
-  var cards = track.querySelectorAll('.video-card');
-
-  /* dots */
-  cards.forEach(function(_,i){
-    var d = document.createElement('button');
-    d.className = 'carousel-dot' + (i===0?' active':'');
-    d.setAttribute('aria-label','Slide '+(i+1));
-    d.addEventListener('click', function(){ scrollTo(i); });
-    dotsWrap.appendChild(d);
-  });
-
-  function getDots(){ return dotsWrap.querySelectorAll('.carousel-dot'); }
-
-  function cardW(){ return cards[0].offsetWidth + 24; }
-
-  function scrollTo(i){
-    track.scrollTo({left: cardW()*i, behavior:'smooth'});
-  }
-
-  function updateDots(){
-    var idx = Math.round(track.scrollLeft / cardW());
-    getDots().forEach(function(d,i){ d.classList.toggle('active', i===idx); });
-  }
-
-  lBtn.addEventListener('click', function(){ track.scrollBy({left:-cardW(), behavior:'smooth'}); });
-  rBtn.addEventListener('click', function(){ track.scrollBy({left: cardW(), behavior:'smooth'}); });
-  track.addEventListener('scroll', updateDots, {passive:true});
-
-  /* drag */
-  var down=false, startX=0, scrollL=0;
-  track.addEventListener('mousedown', function(e){
-    down=true; startX=e.pageX-track.offsetLeft; scrollL=track.scrollLeft;
-    track.classList.add('grabbing');
-  });
-  track.addEventListener('mouseleave', function(){ down=false; track.classList.remove('grabbing'); });
-  track.addEventListener('mouseup',    function(){ down=false; track.classList.remove('grabbing'); });
-  track.addEventListener('mousemove',  function(e){
-    if(!down) return;
-    e.preventDefault();
-    track.scrollLeft = scrollL - (e.pageX - track.offsetLeft - startX)*1.4;
-  });
+  var track=document.getElementById('carouselTrack'),lBtn=document.getElementById('arrowLeft'),rBtn=document.getElementById('arrowRight'),dotsWrap=document.getElementById('carouselDots');
+  if(!track)return;
+  var cards=track.querySelectorAll('.video-card');
+  cards.forEach(function(_,i){var d=document.createElement('button');d.className='carousel-dot'+(i===0?' active':'');d.setAttribute('aria-label','Slide '+(i+1));d.addEventListener('click',function(){scrollTo(i);});dotsWrap.appendChild(d);});
+  function getDots(){return dotsWrap.querySelectorAll('.carousel-dot');}
+  function cardW(){return cards[0].offsetWidth+24;}
+  function scrollTo(i){track.scrollTo({left:cardW()*i,behavior:'smooth'});}
+  function updateDots(){var idx=Math.round(track.scrollLeft/cardW());getDots().forEach(function(d,i){d.classList.toggle('active',i===idx);});}
+  lBtn.addEventListener('click',function(){track.scrollBy({left:-cardW(),behavior:'smooth'});});
+  rBtn.addEventListener('click',function(){track.scrollBy({left:cardW(),behavior:'smooth'});});
+  track.addEventListener('scroll',updateDots,{passive:true});
+  var down=false,startX=0,scrollL=0;
+  track.addEventListener('mousedown',function(e){down=true;startX=e.pageX-track.offsetLeft;scrollL=track.scrollLeft;track.classList.add('grabbing');});
+  track.addEventListener('mouseleave',function(){down=false;track.classList.remove('grabbing');});
+  track.addEventListener('mouseup',function(){down=false;track.classList.remove('grabbing');});
+  track.addEventListener('mousemove',function(e){if(!down)return;e.preventDefault();track.scrollLeft=scrollL-(e.pageX-track.offsetLeft-startX)*1.4;});
 })();
 
-/* ── 6. VIDEO MODAL ── */
+/* ── MODAL ── */
 (function(){
-  var overlay = document.getElementById('modalOverlay');
-  var player  = document.getElementById('modalPlayer');
-  var closeBtn= document.getElementById('modalClose');
-  if(!overlay) return;
-
-  function open(url, type){
-    player.innerHTML='';
-    if(type==='youtube'){
-      var iframe = document.createElement('iframe');
-      iframe.src = url+'?autoplay=1&rel=0';
-      iframe.allow='autoplay;fullscreen;picture-in-picture';
-      iframe.allowFullscreen=true;
-      player.appendChild(iframe);
-    } else {
-      var vid = document.createElement('video');
-      vid.src=url; vid.controls=true; vid.autoplay=true;
-      vid.style.cssText='width:100%;height:100%';
-      player.appendChild(vid);
-    }
-    overlay.hidden=false;
-    document.body.style.overflow='hidden';
-    requestAnimationFrame(function(){ overlay.classList.add('visible'); });
-  }
-
-  function close(){
-    overlay.classList.remove('visible');
-    document.body.style.overflow='';
-    setTimeout(function(){
-      overlay.hidden=true;
-      player.innerHTML='';
-    }, 400);
-  }
-
-  document.querySelectorAll('.video-card').forEach(function(card){
-    card.setAttribute('tabindex','0');
-    card.setAttribute('role','button');
-    card.addEventListener('click', function(){
-      var url = card.dataset.video;
-      var type= card.dataset.type||'youtube';
-      if(url) open(url, type);
-    });
-    card.addEventListener('keydown', function(e){
-      if(e.key==='Enter'||e.key===' '){ e.preventDefault(); card.click(); }
-    });
-  });
-
-  closeBtn.addEventListener('click', close);
-  overlay.addEventListener('click', function(e){ if(e.target===overlay) close(); });
-  document.addEventListener('keydown', function(e){ if(e.key==='Escape'&&!overlay.hidden) close(); });
+  var overlay=document.getElementById('modalOverlay'),player=document.getElementById('modalPlayer'),closeBtn=document.getElementById('modalClose');
+  if(!overlay)return;
+  function open(url,type){player.innerHTML='';if(type==='youtube'){var iframe=document.createElement('iframe');iframe.src=url+'?autoplay=1&rel=0';iframe.allow='autoplay;fullscreen;picture-in-picture';iframe.allowFullscreen=true;player.appendChild(iframe);}else{var vid=document.createElement('video');vid.src=url;vid.controls=true;vid.autoplay=true;vid.style.cssText='width:100%;height:100%';player.appendChild(vid);}overlay.hidden=false;document.body.style.overflow='hidden';requestAnimationFrame(function(){overlay.classList.add('visible');});}
+  function close(){overlay.classList.remove('visible');document.body.style.overflow='';setTimeout(function(){overlay.hidden=true;player.innerHTML='';},400);}
+  document.querySelectorAll('.video-card').forEach(function(card){card.setAttribute('tabindex','0');card.setAttribute('role','button');card.addEventListener('click',function(){var url=card.dataset.video,type=card.dataset.type||'youtube';if(url)open(url,type);});card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();card.click();}});});
+  closeBtn.addEventListener('click',close);
+  overlay.addEventListener('click',function(e){if(e.target===overlay)close();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!overlay.hidden)close();});
 })();
 
-/* ── 7. FILE UPLOAD PREVIEW ── */
+/* ── PACKAGE SELECTION ── */
+function selectPackage(pkg) {
+  var sel = document.getElementById('packageSelect');
+  sel.value = pkg;
+  sel.dispatchEvent(new Event('change'));
+  document.getElementById('request').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+document.getElementById('packageSelect').addEventListener('change', function() {
+  var banner    = document.getElementById('packageBanner');
+  var bannerName  = document.getElementById('bannerName');
+  var bannerPrice = document.getElementById('bannerPrice');
+  var submitBtn   = document.getElementById('submitBtn');
+
+  if(this.value === 'basic') {
+    banner.className = 'selected-package-banner visible';
+    bannerName.textContent  = 'Basic — Essential';
+    bannerPrice.textContent = '€10';
+    submitBtn.className = 'btn btn-primary btn-submit';
+  } else if(this.value === 'premium') {
+    banner.className = 'selected-package-banner visible premium-selected';
+    bannerName.textContent  = 'Premium — Cinematic';
+    bannerPrice.textContent = '€20';
+    submitBtn.className = 'btn btn-gold btn-submit';
+  } else {
+    banner.className = 'selected-package-banner';
+  }
+});
+
+/* ── FILE UPLOAD ── */
 (function(){
-  var zone    = document.getElementById('fileZone');
-  var input   = document.getElementById('photoUpload');
-  var preview = document.getElementById('filePreview');
-  var img     = document.getElementById('filePreviewImg');
-  var rmBtn   = document.getElementById('fileRemove');
-  var ui      = zone && zone.querySelector('.file-upload-ui');
-  if(!zone||!input) return;
-
-  function show(file){
-    if(!file||!file.type.startsWith('image/')) return;
-    img.src = URL.createObjectURL(file);
-    preview.hidden=false; ui.style.display='none'; input.style.display='none';
-  }
-  function clear(){
-    preview.hidden=true; ui.style.display=''; input.style.display=''; img.src=''; input.value='';
-  }
-
-  input.addEventListener('change', function(){ if(input.files[0]) show(input.files[0]); });
-  rmBtn.addEventListener('click',  function(e){ e.stopPropagation(); clear(); });
-
-  zone.addEventListener('dragover',  function(e){ e.preventDefault(); zone.classList.add('dragover'); });
-  zone.addEventListener('dragleave', function(){ zone.classList.remove('dragover'); });
-  zone.addEventListener('drop', function(e){
-    e.preventDefault(); zone.classList.remove('dragover');
-    var file = e.dataTransfer.files[0];
-    if(file){ try{ var dt=new DataTransfer(); dt.items.add(file); input.files=dt.files; }catch(_){} show(file); }
-  });
+  var zone=document.getElementById('fileZone'),input=document.getElementById('photoUpload'),preview=document.getElementById('filePreview'),img=document.getElementById('filePreviewImg'),rmBtn=document.getElementById('fileRemove'),ui=zone&&zone.querySelector('.file-upload-ui');
+  if(!zone||!input)return;
+  function show(file){if(!file||!file.type.startsWith('image/'))return;img.src=URL.createObjectURL(file);preview.hidden=false;ui.style.display='none';input.style.display='none';}
+  function clear(){preview.hidden=true;ui.style.display='';input.style.display='';img.src='';input.value='';}
+  input.addEventListener('change',function(){if(input.files[0])show(input.files[0]);});
+  rmBtn.addEventListener('click',function(e){e.stopPropagation();clear();});
+  zone.addEventListener('dragover',function(e){e.preventDefault();zone.classList.add('dragover');});
+  zone.addEventListener('dragleave',function(){zone.classList.remove('dragover');});
+  zone.addEventListener('drop',function(e){e.preventDefault();zone.classList.remove('dragover');var file=e.dataTransfer.files[0];if(file){try{var dt=new DataTransfer();dt.items.add(file);input.files=dt.files;}catch(_){}show(file);}});
 })();
 
-/* ── 8. FORM VALIDATION & SUBMIT ── */
+/* ── FORM ── */
 (function(){
-  var form    = document.getElementById('requestForm');
-  var btn     = document.getElementById('submitBtn');
-  var success = document.getElementById('formSuccess');
-  if(!form) return;
+  var form=document.getElementById('requestForm'),btn=document.getElementById('submitBtn'),success=document.getElementById('formSuccess');
+  if(!form)return;
 
-  var fields = [
-    {id:'yourName',    ok:function(v){ return v.trim().length>=2; }},
-    {id:'recipientName',ok:function(v){ return v.trim().length>=1; }},
-    {id:'email',       ok:function(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); }},
-    {id:'occasion',    ok:function(v){ return v!==''; }},
-    {id:'message',     ok:function(v){ return v.trim().length>=10; }},
+  var fields=[
+    {id:'packageSelect', ok:function(v){return v!=='';}},
+    {id:'yourName',      ok:function(v){return v.trim().length>=2;}},
+    {id:'recipientName', ok:function(v){return v.trim().length>=1;}},
+    {id:'email',         ok:function(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());}},
+    {id:'occasion',      ok:function(v){return v!=='';}},
+    {id:'message',       ok:function(v){return v.trim().length>=10;}},
   ];
 
   function validate(fc){
-    var el  = document.getElementById(fc.id);
-    var err = el && el.parentElement.querySelector('.form-error');
-    var valid = fc.ok(el?el.value:'');
-    if(el)  el.classList.toggle('error',!valid);
-    if(err) err.classList.toggle('visible',!valid);
+    var el=document.getElementById(fc.id),err=el&&el.parentElement.querySelector('.form-error'),valid=fc.ok(el?el.value:'');
+    if(el)el.classList.toggle('error',!valid);
+    if(err)err.classList.toggle('visible',!valid);
     return valid;
   }
 
   fields.forEach(function(fc){
-    var el = document.getElementById(fc.id);
-    if(!el) return;
-    el.addEventListener('blur', function(){ validate(fc); });
-    el.addEventListener('input', function(){
-      if(fc.ok(el.value)){
-        el.classList.remove('error');
-        var err = el.parentElement.querySelector('.form-error');
-        if(err) err.classList.remove('visible');
-      }
-    });
+    var el=document.getElementById(fc.id);
+    if(!el)return;
+    el.addEventListener('blur',function(){validate(fc);});
+    el.addEventListener('change',function(){if(fc.ok(el.value)){el.classList.remove('error');var err=el.parentElement.querySelector('.form-error');if(err)err.classList.remove('visible');}});
+    el.addEventListener('input',function(){if(fc.ok(el.value)){el.classList.remove('error');var err=el.parentElement.querySelector('.form-error');if(err)err.classList.remove('visible');}});
   });
 
-  form.addEventListener('submit', function(e){
+  form.addEventListener('submit',function(e){
     e.preventDefault();
-    var allOk = fields.map(validate).every(Boolean);
-    if(!allOk){
-      var first = form.querySelector('.error');
-      if(first) first.scrollIntoView({behavior:'smooth',block:'center'});
-      return;
-    }
+    var allOk=fields.map(validate).every(Boolean);
+    if(!allOk){var first=form.querySelector('.error');if(first)first.scrollIntoView({behavior:'smooth',block:'center'});return;}
     btn.classList.add('loading');
 
-    // ── Trimite la server (Telegram) + Formspree (email) ──
-    var yourName      = document.getElementById('yourName').value;
-    var email         = document.getElementById('email').value;
-    var recipientName = document.getElementById('recipientName').value;
-    var occasion      = document.getElementById('occasion').value;
-    var message       = document.getElementById('message').value;
+    var yourName=document.getElementById('yourName').value;
+    var email=document.getElementById('email').value;
+    var recipientName=document.getElementById('recipientName').value;
+    var occasion=document.getElementById('occasion').value;
+    var message=document.getElementById('message').value;
+    var pkg=document.getElementById('packageSelect').value;
+    var pkgLabel=pkg==='premium'?'Premium — €20':'Basic — €10';
 
-    // 1. Trimite la serverul tau — Telegram
-    fetch('https://malformed-snack-parking.ngrok-free.dev/order', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'ngrok-skip-browser-warning': 'true'
-      },
-      body: JSON.stringify({
-        from_name:      yourName,
-        from_email:     email,
-        recipient_name: recipientName,
-        occasion:       occasion,
-        message:        message
-      })
-    }).catch(function(){ /* daca serverul e oprit, ignoram */ });
+    // Trimite la server — Telegram
+    fetch('https://malformed-snack-parking.ngrok-free.dev/order',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'true'},
+      body:JSON.stringify({from_name:yourName,from_email:email,recipient_name:recipientName,occasion:occasion,message:message,package:pkgLabel})
+    }).catch(function(){});
 
-    // 2. Trimite la Formspree — email backup
-    var formData = new FormData();
-    formData.append('yourName',      yourName);
-    formData.append('email',         email);
-    formData.append('recipientName', recipientName);
-    formData.append('occasion',      occasion);
-    formData.append('message',       message);
+    // Trimite la Formspree — email backup
+    var formData=new FormData();
+    formData.append('yourName',yourName);
+    formData.append('email',email);
+    formData.append('recipientName',recipientName);
+    formData.append('occasion',occasion);
+    formData.append('message',message);
+    formData.append('package',pkgLabel);
 
-    fetch('https://formspree.io/f/xkoykkan', {
-      method: 'POST',
-      body: formData,
-      headers: { 'Accept': 'application/json' }
+    fetch('https://formspree.io/f/xkoykkan',{
+      method:'POST',body:formData,headers:{'Accept':'application/json'}
     })
-    .then(function(r){ return r.json(); })
+    .then(function(r){return r.json();})
     .then(function(data){
-      if(data.ok){
-        btn.classList.remove('loading');
-        form.style.display = 'none';
-        success.hidden = false;
-      } else {
-        throw new Error('Eroare formspree');
-      }
+      if(data.ok){btn.classList.remove('loading');form.style.display='none';success.hidden=false;}
+      else{throw new Error('error');}
     })
     .catch(function(err){
       btn.classList.remove('loading');
-      console.error('Eroare:', err);
-      alert('Ceva nu a mers. Te rugăm încearcă din nou.');
+      console.error('Eroare:',err);
+      alert('Ceva nu a mers. Te rugam incearca din nou.');
     });
-    return;
   });
 })();
 </script>
