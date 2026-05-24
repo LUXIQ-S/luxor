@@ -508,7 +508,62 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener
 function selectPackage(pkg){var sel=document.getElementById('packageSelect');sel.value=pkg;sel.dispatchEvent(new Event('change'));document.getElementById('request').scrollIntoView({behavior:'smooth',block:'start'});}
 document.getElementById('packageSelect').addEventListener('change',function(){var banner=document.getElementById('packageBanner'),bannerName=document.getElementById('bannerName'),bannerPrice=document.getElementById('bannerPrice'),submitBtn=document.getElementById('submitBtn'),t=i18n[currentLang];if(this.value==='basic'){banner.className='selected-package-banner visible';bannerName.textContent=t.banner_basic;bannerPrice.textContent='€10';submitBtn.className='btn btn-primary btn-submit';}else if(this.value==='premium'){banner.className='selected-package-banner visible premium-selected';bannerName.textContent=t.banner_premium;bannerPrice.textContent='€20';submitBtn.className='btn btn-gold btn-submit';}else{banner.className='selected-package-banner';}});
 (function(){var zone=document.getElementById('fileZone'),input=document.getElementById('photoUpload'),preview=document.getElementById('filePreview'),img=document.getElementById('filePreviewImg'),rmBtn=document.getElementById('fileRemove'),ui=zone&&zone.querySelector('.file-upload-ui');if(!zone||!input)return;function show(file){if(!file||!file.type.startsWith('image/'))return;img.src=URL.createObjectURL(file);preview.hidden=false;ui.style.display='none';input.style.display='none';}function clear(){preview.hidden=true;ui.style.display='';input.style.display='';img.src='';input.value='';}input.addEventListener('change',function(){if(input.files[0])show(input.files[0]);});rmBtn.addEventListener('click',function(e){e.stopPropagation();clear();});zone.addEventListener('dragover',function(e){e.preventDefault();zone.classList.add('dragover');});zone.addEventListener('dragleave',function(){zone.classList.remove('dragover');});zone.addEventListener('drop',function(e){e.preventDefault();zone.classList.remove('dragover');var file=e.dataTransfer.files[0];if(file){try{var dt=new DataTransfer();dt.items.add(file);input.files=dt.files;}catch(_){}show(file);}});})();
-(function(){var form=document.getElementById('requestForm'),btn=document.getElementById('submitBtn'),success=document.getElementById('formSuccess');if(!form)return;var fields=[{id:'packageSelect',ok:function(v){return v!=='';}},{id:'yourName',ok:function(v){return v.trim().length>=2;}},{id:'recipientName',ok:function(v){return v.trim().length>=1;}},{id:'email',ok:function(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());}},{id:'occasion',ok:function(v){return v!=='';}},{id:'message',ok:function(v){return v.trim().length>=10;}}];function validate(fc){var el=document.getElementById(fc.id),err=el&&el.parentElement.querySelector('.form-error'),valid=fc.ok(el?el.value:'');if(el)el.classList.toggle('error',!valid);if(err)err.classList.toggle('visible',!valid);return valid;}fields.forEach(function(fc){var el=document.getElementById(fc.id);if(!el)return;el.addEventListener('blur',function(){validate(fc);});el.addEventListener('change',function(){if(fc.ok(el.value)){el.classList.remove('error');var err=el.parentElement.querySelector('.form-error');if(err)err.classList.remove('visible');}});el.addEventListener('input',function(){if(fc.ok(el.value)){el.classList.remove('error');var err=el.parentElement.querySelector('.form-error');if(err)err.classList.remove('visible');}});});form.addEventListener('submit',function(e){e.preventDefault();var allOk=fields.map(validate).every(Boolean);if(!allOk){var first=form.querySelector('.error');if(first)first.scrollIntoView({behavior:'smooth',block:'center'});return;}btn.classList.add('loading');var yourName=document.getElementById('yourName').value,email=document.getElementById('email').value,recipientName=document.getElementById('recipientName').value,occasion=document.getElementById('occasion').value,message=document.getElementById('message').value,pkg=document.getElementById('packageSelect').value,pkgLabel=pkg==='premium'?'Premium — €20':'Basic — €10';fetch('https://malformed-snack-parking.ngrok-free.dev/order',{method:'POST',headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'true'},body:JSON.stringify({from_name:yourName,from_email:email,recipient_name:recipientName,occasion:occasion,message:message,package:pkgLabel})}).catch(function(){});var formData=new FormData();formData.append('yourName',yourName);formData.append('email',email);formData.append('recipientName',recipientName);formData.append('occasion',occasion);formData.append('message',message);formData.append('package',pkgLabel);fetch('https://formspree.io/f/xkoykkan',{method:'POST',body:formData,headers:{'Accept':'application/json'}}).then(function(r){return r.json();}).then(function(data){if(data.ok){btn.classList.remove('loading');form.style.display='none';success.hidden=false;}else{throw new Error('error');}}).catch(function(err){btn.classList.remove('loading');console.error('Error:',err);alert(currentLang==='ro'?'Ceva nu a mers. Te rugăm încearcă din nou.':currentLang==='ru'?'Что-то пошло не так. Попробуйте снова.':'Something went wrong. Please try again.');});});})();
+(function(){var form=document.getElementById('requestForm'),btn=document.getElementById('submitBtn'),success=document.getElementById('formSuccess');if(!form)return;var fields=[{id:'packageSelect',ok:function(v){return v!=='';}},{id:'yourName',ok:function(v){return v.trim().length>=2;}},{id:'recipientName',ok:function(v){return v.trim().length>=1;}},{id:'email',ok:function(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());}},{id:'occasion',ok:function(v){return v!=='';}},{id:'message',ok:function(v){return v.trim().length>=10;}}];function validate(fc){var el=document.getElementById(fc.id),err=el&&el.parentElement.querySelector('.form-error'),valid=fc.ok(el?el.value:'');if(el)el.classList.toggle('error',!valid);if(err)err.classList.toggle('visible',!valid);return valid;}fields.forEach(function(fc){var el=document.getElementById(fc.id);if(!el)return;el.addEventListener('blur',function(){validate(fc);});el.addEventListener('change',function(){if(fc.ok(el.value)){el.classList.remove('error');var err=el.parentElement.querySelector('.form-error');if(err)err.classList.remove('visible');}});el.addEventListener('input',function(){if(fc.ok(el.value)){el.classList.remove('error');var err=el.parentElement.querySelector('.form-error');if(err)err.classList.remove('visible');}});});form.addEventListener('submit',function(e){e.preventDefault();var allOk=fields.map(validate).every(Boolean);if(!allOk){var first=form.querySelector('.error');if(first)first.scrollIntoView({behavior:'smooth',block:'center'});return;}btn.classList.add('loading');var yourName=document.getElementById('yourName').value,email=document.getElementById('email').value,recipientName=document.getElementById('recipientName').value,occasion=document.getElementById('occasion').value,message=document.getElementById('message').value,pkg=document.getElementById('packageSelect').value,pkgLabel=pkg==='premium'?'Premium — €20':'Basic — €10';// Salvam poza inainte de orice
+var photoInput=document.getElementById('photoUpload');
+var photoFile=photoInput&&photoInput.files&&photoInput.files[0]?photoInput.files[0]:null;
+
+function doSubmit(base64Photo){
+  // 1. Trimite la server (Telegram + SQLite)
+  fetch('https://malformed-snack-parking.ngrok-free.dev/order',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'true'},
+    body:JSON.stringify({from_name:yourName,from_email:email,recipient_name:recipientName,occasion:occasion,message:message,package:pkgLabel,photo:base64Photo||null})
+  }).catch(function(){});
+
+  // 2. Trimite la Formspree (email backup)
+  var formData=new FormData();
+  formData.append('yourName',yourName);
+  formData.append('email',email);
+  formData.append('recipientName',recipientName);
+  formData.append('occasion',occasion);
+  formData.append('message',message);
+  formData.append('package',pkgLabel);
+  formData.append('hasPhoto',base64Photo?'Da':'Nu');
+
+  fetch('https://formspree.io/f/xkoykkan',{method:'POST',body:formData,headers:{'Accept':'application/json'}})
+  .then(function(r){return r.json();})
+  .then(function(data){
+    if(data.ok){btn.classList.remove('loading');form.style.display='none';success.hidden=false;}
+    else{throw new Error('error');}
+  })
+  .catch(function(err){
+    btn.classList.remove('loading');
+    console.error('Error:',err);
+    alert(currentLang==='ro'?'Ceva nu a mers. Te rugăm încearcă din nou.':currentLang==='ru'?'Что-то пошло не так. Попробуйте снова.':'Something went wrong. Please try again.');
+  });
+}
+
+// Daca are poza, comprimam si trimitem
+if(photoFile){
+  var reader=new FileReader();
+  reader.onload=function(ev){
+    var img=new Image();
+    img.onload=function(){
+      var canvas=document.createElement('canvas');
+      var maxW=1200,maxH=1200,w=img.width,h=img.height;
+      if(w>maxW||h>maxH){if(w>h){h=Math.round(h*maxW/w);w=maxW;}else{w=Math.round(w*maxH/h);h=maxH;}}
+      canvas.width=w;canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      doSubmit(canvas.toDataURL('image/jpeg',0.8));
+    };
+    img.onerror=function(){doSubmit(null);};
+    img.src=ev.target.result;
+  };
+  reader.onerror=function(){doSubmit(null);};
+  reader.readAsDataURL(photoFile);
+} else {
+  doSubmit(null);
+}});})();
 </script>
 </body>
 </html>
